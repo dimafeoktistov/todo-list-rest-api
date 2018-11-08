@@ -7,7 +7,10 @@ module.exports = server => {
    * @apiVersion 1.0.0
    * @apiName getTodos
    * @apiGroup Todos
-   *
+   * @apiHeader {String} Authorization В поле следует внести полученный токен в формате
+   *                     <code>jwt token</code> где token это полученный при авторизации токен
+   * @apiDescription Указывать userId надо для того чтобы отфильтровать список всех
+   *                 задач и получить задачи только текущего пользователя
    *
    * @apiParam  {String} userId позволяет получать список todo задач
    *  по id пользователя (включать <strong>обязательно</strong>)
@@ -18,7 +21,7 @@ module.exports = server => {
    * [ todo, todo, todo, ... ]
    *
    * @apiExample {axios} Пример использования:
-   *  axios.get('http://localhost:5000/todos?userId=${userId}${token}')
+   *  axios.get(`http://localhost:5000/todos?userId=${userId}`, {headers: {Authorization: `jwt ${token}`}})
    */
   server.get("/todos", async (req, res, next) => {
     try {
@@ -37,7 +40,8 @@ module.exports = server => {
    * @apiVersion 1.0.0
    * @apiName getOneTodo
    * @apiGroup Todos
-   *
+   * @apiHeader {String} Authorization В поле следует внести полученный токен в формате
+   *                     <code>jwt token</code> где token это полученный при авторизации токен
    *
    * @apiParam  {String} :id позволяет получить конкретную задачю с id равном :id
    *
@@ -55,7 +59,7 @@ module.exports = server => {
    * }
    *
    * @apiExample {axios} Пример использования:
-   *  axios.get('http://localhost:5000/todos/5be3f073b41d1e450c09dfa3')
+   *  axios.get('http://localhost:5000/todos/5be3f073b41d1e450c09dfa3', {headers: {Authorization: `jwt ${token}`}})
    */
   server.get("/todos/:id", async (req, res, next) => {
     try {
@@ -75,7 +79,8 @@ module.exports = server => {
    * @apiVersion 1.0.0
    * @apiName postTodo
    * @apiGroup Todos
-   *
+   * @apiHeader {String} Authorization В поле следует внести полученный токен в формате
+   *                     <code>jwt token</code> где token это полученный при авторизации токен
    *
    * @apiParam  {String} title Название задачи. Обязательный параметр.
    * @apiParam  {String} description Текст задачи. Обязательный параметр.
@@ -103,7 +108,7 @@ module.exports = server => {
    * }
    *
    * @apiExample {axios} Пример использования:
-   *  axios.post('http://localhost:5000/todos', data)
+   *  axios.post('http://localhost:5000/todos', data, {headers: {Authorization: `jwt ${token}`}})
    */
   server.post("/todos", async (req, res, next) => {
     // Проверка на json
@@ -135,7 +140,8 @@ module.exports = server => {
    * @apiVersion 1.0.0
    * @apiName putTodo
    * @apiGroup Todos
-   *
+   * @apiHeader {String} Authorization В поле следует внести полученный токен в формате
+   *                     <code>jwt token</code> где token это полученный при авторизации токен
    *
    * @apiParam  {String} title Название задачи. Необязательный параметр.
    * @apiParam  {String} description Текст задачи. Необязательный параметр.
@@ -160,7 +166,7 @@ module.exports = server => {
    * }
    *
    * @apiExample {axios} Пример использования:
-   *                     axios.put('http://localhost:5000/todos/5be3f073b41d1e450c09dfa3', data)
+   *                     axios.put('http://localhost:5000/todos/5be3f073b41d1e450c09dfa3', data, {headers: {Authorization: `jwt ${token}`}})
    */
   server.put("/todos/:id", async (req, res, next) => {
     // Проверка на json
@@ -190,7 +196,8 @@ module.exports = server => {
    * @apiVersion 1.0.0
    * @apiName deleteTodo
    * @apiGroup Todos
-   *
+   * @apiHeader {String} Authorization В поле следует внести полученный токен в формате
+   *                     <code>jwt token</code> где token это полученный при авторизации токен
    *
    * @apiParam  {String} :id Id удаляемой задачи.
    *
@@ -198,7 +205,7 @@ module.exports = server => {
    *
    *
    * @apiExample {axios} Пример использования:
-   *  axios.delete('http://localhost:5000/todos/5be3f073b41d1e450c09dfa3')
+   *  axios.delete('http://localhost:5000/todos/5be3f073b41d1e450c09dfa3', {headers: {Authorization: `jwt ${token}`}})
    */
   server.del("/todos/:id", async (req, res, next) => {
     try {

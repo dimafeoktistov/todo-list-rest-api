@@ -6,6 +6,19 @@ define({ "api": [
     "version": "1.0.0",
     "name": "deleteTodo",
     "group": "Todos",
+    "header": {
+      "fields": {
+        "Header": [
+          {
+            "group": "Header",
+            "type": "String",
+            "optional": false,
+            "field": "Authorization",
+            "description": "<p>В поле следует внести полученный токен в формате <code>jwt token</code> где token это полученный при авторизации токен</p>"
+          }
+        ]
+      }
+    },
     "parameter": {
       "fields": {
         "Parameter": [
@@ -35,7 +48,7 @@ define({ "api": [
     "examples": [
       {
         "title": "Пример использования:",
-        "content": "axios.delete('http://localhost:5000/todos/5be3f073b41d1e450c09dfa3')",
+        "content": "axios.delete('http://localhost:5000/todos/5be3f073b41d1e450c09dfa3', {headers: {Authorization: `jwt ${token}`}})",
         "type": "axios"
       }
     ],
@@ -49,6 +62,19 @@ define({ "api": [
     "version": "1.0.0",
     "name": "getOneTodo",
     "group": "Todos",
+    "header": {
+      "fields": {
+        "Header": [
+          {
+            "group": "Header",
+            "type": "String",
+            "optional": false,
+            "field": "Authorization",
+            "description": "<p>В поле следует внести полученный токен в формате <code>jwt token</code> где token это полученный при авторизации токен</p>"
+          }
+        ]
+      }
+    },
     "parameter": {
       "fields": {
         "Parameter": [
@@ -85,7 +111,7 @@ define({ "api": [
     "examples": [
       {
         "title": "Пример использования:",
-        "content": "axios.get('http://localhost:5000/todos/5be3f073b41d1e450c09dfa3')",
+        "content": "axios.get('http://localhost:5000/todos/5be3f073b41d1e450c09dfa3', {headers: {Authorization: `jwt ${token}`}})",
         "type": "axios"
       }
     ],
@@ -99,6 +125,20 @@ define({ "api": [
     "version": "1.0.0",
     "name": "getTodos",
     "group": "Todos",
+    "header": {
+      "fields": {
+        "Header": [
+          {
+            "group": "Header",
+            "type": "String",
+            "optional": false,
+            "field": "Authorization",
+            "description": "<p>В поле следует внести полученный токен в формате <code>jwt token</code> где token это полученный при авторизации токен</p>"
+          }
+        ]
+      }
+    },
+    "description": "<p>Указывать userId надо для того чтобы отфильтровать список всех задач и получить задачи только текущего пользователя</p>",
     "parameter": {
       "fields": {
         "Parameter": [
@@ -135,7 +175,7 @@ define({ "api": [
     "examples": [
       {
         "title": "Пример использования:",
-        "content": "axios.get('http://localhost:5000/todos?userId=${userId}${token}')",
+        "content": "axios.get(`http://localhost:5000/todos?userId=${userId}`, {headers: {Authorization: `jwt ${token}`}})",
         "type": "axios"
       }
     ],
@@ -149,6 +189,19 @@ define({ "api": [
     "version": "1.0.0",
     "name": "postTodo",
     "group": "Todos",
+    "header": {
+      "fields": {
+        "Header": [
+          {
+            "group": "Header",
+            "type": "String",
+            "optional": false,
+            "field": "Authorization",
+            "description": "<p>В поле следует внести полученный токен в формате <code>jwt token</code> где token это полученный при авторизации токен</p>"
+          }
+        ]
+      }
+    },
     "parameter": {
       "fields": {
         "Parameter": [
@@ -213,7 +266,7 @@ define({ "api": [
     "examples": [
       {
         "title": "Пример использования:",
-        "content": "axios.post('http://localhost:5000/todos', data)",
+        "content": "axios.post('http://localhost:5000/todos', data, {headers: {Authorization: `jwt ${token}`}})",
         "type": "axios"
       }
     ],
@@ -227,6 +280,19 @@ define({ "api": [
     "version": "1.0.0",
     "name": "putTodo",
     "group": "Todos",
+    "header": {
+      "fields": {
+        "Header": [
+          {
+            "group": "Header",
+            "type": "String",
+            "optional": false,
+            "field": "Authorization",
+            "description": "<p>В поле следует внести полученный токен в формате <code>jwt token</code> где token это полученный при авторизации токен</p>"
+          }
+        ]
+      }
+    },
     "parameter": {
       "fields": {
         "Parameter": [
@@ -284,7 +350,7 @@ define({ "api": [
     "examples": [
       {
         "title": "Пример использования:",
-        "content": "axios.put('http://localhost:5000/todos/5be3f073b41d1e450c09dfa3', data)",
+        "content": "axios.put('http://localhost:5000/todos/5be3f073b41d1e450c09dfa3', data, {headers: {Authorization: `jwt ${token}`}})",
         "type": "axios"
       }
     ],
@@ -419,34 +485,48 @@ define({ "api": [
     },
     "success": {
       "fields": {
-        "201": [
+        "200": [
           {
-            "group": "201",
+            "group": "200",
+            "type": "Number",
+            "optional": false,
+            "field": "iat",
+            "description": "<p>Issued at: время выпуска токена</p>"
+          },
+          {
+            "group": "200",
+            "type": "Number",
+            "optional": false,
+            "field": "exp",
+            "description": "<p>Время конца действия токена</p>"
+          },
+          {
+            "group": "200",
             "type": "String",
             "optional": false,
-            "field": "_id",
+            "field": "token",
+            "description": "<p>Токен</p>"
+          },
+          {
+            "group": "200",
+            "type": "String",
+            "optional": false,
+            "field": "userId",
             "description": "<p>Уникальный идентификатор пользователя</p>"
           },
           {
-            "group": "201",
+            "group": "200",
             "type": "String",
             "optional": false,
             "field": "login",
             "description": "<p>Логин пользователя</p>"
-          },
-          {
-            "group": "201",
-            "type": "String",
-            "optional": false,
-            "field": "password",
-            "description": "<p>Пароль пользователя</p>"
           }
         ]
       },
       "examples": [
         {
           "title": "Success-Response:",
-          "content": "{\n     \"userId\" : \"Id\",\n     \"login\" : \"Логин\",\n}",
+          "content": "{\n  \"iat\": 1541662808,\n  \"exp\": 1541666408,\n  \"token\": \"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI1YmUzZTNlZmJhZGE5NjNhM2MwMmEzMGQiLCJsb2dpbiI6InRlc3QiLCJwYXNzd29yZCI6IiQyYSQxMCREcS9wYWVHYmIzOFkxTmZqb0FyTGhPSGs1aFFkUEpyQUhrdWpiNXFmdzFDeFNrc0RwY2Q3UyIsIl9fdiI6MCwiaWF0IjoxNTQxNjYyODA4LCJleHAiOjE1NDE2NjY0MDh9.wQp6iFm26zDZxLBilXiu5WmbrCTfhLwlb92GPZsbqwA\",\n  \"userId\": \"5be3e3efbada963a3c02a30d\",\n  \"login\": \"test\"\n}",
           "type": "JSON"
         }
       ]
