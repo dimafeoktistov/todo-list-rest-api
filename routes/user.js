@@ -38,7 +38,7 @@ module.exports = server => {
    *    "login": "test"
    *  }
    *@apiExample {axios} Пример использования:
-   * axios.post('http://localhost:5000/register', data)
+   * axios.post('https://fast-sea-34727.herokuapp.com/register', data)
    *
    */
   server.post("/register", (req, res, next) => {
@@ -112,7 +112,7 @@ module.exports = server => {
    *    "login": "test"
    *  }
    *@apiExample {axios} Пример использования:
-   * axios.post('http://localhost:5000/auth', data)
+   * axios.post('https://fast-sea-34727.herokuapp.com/auth', data)
    *
    */
   server.post("/auth", async (req, res, next) => {

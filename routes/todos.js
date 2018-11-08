@@ -21,7 +21,7 @@ module.exports = server => {
    * [ todo, todo, todo, ... ]
    *
    * @apiExample {axios} Пример использования:
-   *  axios.get(`http://localhost:5000/todos?userId=${userId}`, {headers: {Authorization: `jwt ${token}`}})
+   *  axios.get(`https://fast-sea-34727.herokuapp.com/todos?userId=${userId}`, {headers: {Authorization: `jwt ${token}`}})
    */
   server.get("/todos", async (req, res, next) => {
     try {
@@ -59,7 +59,7 @@ module.exports = server => {
    * }
    *
    * @apiExample {axios} Пример использования:
-   *  axios.get('http://localhost:5000/todos/5be3f073b41d1e450c09dfa3', {headers: {Authorization: `jwt ${token}`}})
+   *  axios.get('https://fast-sea-34727.herokuapp.com/todos/5be3f073b41d1e450c09dfa3', {headers: {Authorization: `jwt ${token}`}})
    */
   server.get("/todos/:id", async (req, res, next) => {
     try {
@@ -108,7 +108,7 @@ module.exports = server => {
    * }
    *
    * @apiExample {axios} Пример использования:
-   *  axios.post('http://localhost:5000/todos', data, {headers: {Authorization: `jwt ${token}`}})
+   *  axios.post('https://fast-sea-34727.herokuapp.com/todos', data, {headers: {Authorization: `jwt ${token}`}})
    */
   server.post("/todos", async (req, res, next) => {
     // Проверка на json
@@ -166,7 +166,7 @@ module.exports = server => {
    * }
    *
    * @apiExample {axios} Пример использования:
-   *                     axios.put('http://localhost:5000/todos/5be3f073b41d1e450c09dfa3', data, {headers: {Authorization: `jwt ${token}`}})
+   *                     axios.put('https://fast-sea-34727.herokuapp.com/todos/5be3f073b41d1e450c09dfa3', data, {headers: {Authorization: `jwt ${token}`}})
    */
   server.put("/todos/:id", async (req, res, next) => {
     // Проверка на json
@@ -205,7 +205,7 @@ module.exports = server => {
    *
    *
    * @apiExample {axios} Пример использования:
-   *  axios.delete('http://localhost:5000/todos/5be3f073b41d1e450c09dfa3', {headers: {Authorization: `jwt ${token}`}})
+   *  axios.delete('https://fast-sea-34727.herokuapp.com/todos/5be3f073b41d1e450c09dfa3', {headers: {Authorization: `jwt ${token}`}})
    */
   server.del("/todos/:id", async (req, res, next) => {
     try {
