@@ -6,12 +6,41 @@ const auth = require("../auth");
 const config = require("../config");
 
 module.exports = server => {
-  // Регистрация юзера
+  /**
+   *
+   * @api {post} /register Зарегестрировать пользователя
+   * @apiVersion 1.0.0
+   * @apiName register
+   * @apiGroup Users
+   *
+   * @apiParam  {String} login required логин пользователя
+   * @apiParam  {String} password required пароль пользователя
+   *
+   * @apiSuccess (201) {String} _id Уникальный идентификатор пользователя
+   * @apiSuccess (201) {String} login Логин пользователя
+   * @apiSuccess (201) {String} password Пароль пользователя
+   *
+   * @apiParamExample  {JSON} Request-Example:
+   * {
+   *     "login" : "test",
+   *     "password" : "testtest"
+   * }
+   *
+   *
+   * @apiSuccessExample {JSON} Success-Response:
+   * {
+   *      "userId" : "Id",
+   *      "login" : "Логин",
+   * }
+   *@apiExample {axios} Пример использования:
+   * axios.post('http://localhost:5000/register', data)
+   *
+   */
   server.post("/register", (req, res, next) => {
-    const { email, password } = req.body;
+    const { login, password } = req.body;
 
     const user = new User({
-      email,
+      login,
       password
     });
 
@@ -23,7 +52,11 @@ module.exports = server => {
 
         try {
           const newUser = await user.save();
-          res.send(201);
+          const data = {
+            userId: user._id,
+            login: user.login
+          };
+          res.send(201, data);
           next();
         } catch (error) {
           return next(new errors.InternalError(error.message));
@@ -32,21 +65,62 @@ module.exports = server => {
     });
   });
 
+  /**
+   *
+   * @api {post} /auth Авторизировать пользователя
+   * @apiVersion 1.0.0
+   * @apiName auth
+   * @apiGroup Users
+   *
+   * @apiParam  {String} login required логин пользователя
+   * @apiParam  {String} password required пароль пользователя
+   *
+   * @apiSuccess (200) {Number} iat Issued at: время выпуска токена
+   * @apiSuccess (200) {Number} exp Время конца действия токена
+   * @apiSuccess (200) {String} token Токен
+   * @apiSuccess (200) {String} userId Уникальный идентификатор пользователя
+   * @apiSuccess (200) {String} login Логин пользователя
+   *
+   * @apiParamExample  {JSON} Request-Example:
+   * {
+   *     "login" : "test",
+   *     "password" : "testtest"
+   * }
+   *
+   *
+   * @apiSuccessExample {JSON} Success-Response:
+   *  {
+   *    "iat": 1541662808,
+   *    "exp": 1541666408,
+   *    "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI1YmUzZTNlZmJhZGE5NjNhM2MwMmEzMGQiLCJsb2dpbiI6InRlc3QiLCJwYXNzd29yZCI6IiQyYSQxMCREcS9wYWVHYmIzOFkxTmZqb0FyTGhPSGs1aFFkUEpyQUhrdWpiNXFmdzFDeFNrc0RwY2Q3UyIsIl9fdiI6MCwiaWF0IjoxNTQxNjYyODA4LCJleHAiOjE1NDE2NjY0MDh9.wQp6iFm26zDZxLBilXiu5WmbrCTfhLwlb92GPZsbqwA",
+   *    "userId": "5be3e3efbada963a3c02a30d",
+   *    "login": "test"
+   *  }
+   *@apiExample {axios} Пример использования:
+   * axios.post('http://localhost:5000/auth', data)
+   *
+   */
   server.post("/auth", async (req, res, next) => {
-    const { email, password } = req.body;
+    const { login, password } = req.body;
 
     try {
       // Попытка залогинить пользователя
-      const user = await auth.authenticate(email, password);
+      const user = await auth.authenticate(login, password);
 
       const token = jwt.sign(user.toJSON(), config.JWT_SECRET, {
-        expiresIn: "15m"
+        expiresIn: "1h"
       });
 
       const { iat, exp } = jwt.decode(token);
 
       // Отправляем токен
-      res.send({ iat, exp, token });
+      res.send({
+        iat,
+        exp,
+        token,
+        userId: user._id,
+        login: user.login
+      });
 
       next();
     } catch (err) {

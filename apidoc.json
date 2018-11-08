@@ -1,0 +1,7 @@
+{
+  "name": "Todo list app API",
+  "version": "1.0.0",
+  "description": "Апи для todo list приложения",
+  "title": "Custom apiDoc browser title",
+  "url": "http://localhost:5000"
+}

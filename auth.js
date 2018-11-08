@@ -2,11 +2,11 @@ const bcrypt = require("bcryptjs");
 const mongoose = require("mongoose");
 const User = mongoose.model("User");
 
-exports.authenticate = (email, password) => {
+exports.authenticate = (login, password) => {
   return new Promise(async (resolve, reject) => {
     try {
-      // Получить пользователя по email'у
-      const user = await User.findOne({ email });
+      // Получить пользователя по логину
+      const user = await User.findOne({ login });
 
       // Пароль совпал
       bcrypt.compare(password, user.password, (err, isMatch) => {
@@ -15,7 +15,7 @@ exports.authenticate = (email, password) => {
         resolve(user);
       });
     } catch (err) {
-      // Email не найден или пароль не совпадает
+      // пользователь не найден
       reject("Аутентификация не прошла");
     }
   });
